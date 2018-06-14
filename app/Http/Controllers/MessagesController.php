@@ -34,9 +34,14 @@ class MessagesController extends Controller
                         $messageString = $entry['content']['$t'];
                         // divide message string and to extract message's data
                         $messageDataObject = $this->getMessageDataAsObject($messageString);
+                        // add message to messages array
                         $messagesArray[$entryIndex] = $messageDataObject;
                     }
                 }
+                // sort messages array by sentiment
+                usort($messagesArray, function($msg1, $msg2) {
+                    return (strcmp(strtolower($msg1->sentiment), strtolower($msg2->sentiment)) < 0)? -1 : 1;
+                });
             }
 
         }
